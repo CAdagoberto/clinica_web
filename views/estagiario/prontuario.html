@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontuário</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../src/css/estagiario/global.css">
+    <link rel="stylesheet" href="../../src/css/estagiario/prontuarios.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+
+            <hr class="linha-menu"> 
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-days"></i> Minha Agenda</a>
+                <a href="meus_pacientes.html" class="active"><i class="fa-solid fa-users"></i> Meus Pacientes</a>
+                <a href="#"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="avaliacao.html"><i class="fa-solid fa-graduation-cap"></i> Avaliação Acadêmica</a>
+            </nav>
+            
+            <hr class="linha-menu"> 
+            
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-prontuario">
+         <a href="#" onclick="history.back(); return false;" class="btn-voltar">
+            <i class="fa-solid fa-arrow-left"></i>Voltar
+        </a>
+
+        <header class="cabecalho-tela">
+            <h1>Prontuários</h1>
+            <p>Histórico clínico e evoluções das sessões realizadas.</p>
+        </header>
+        
+        <div class="card-paciente-topo">
+            <div class="topo-perfil-linha">
+                <div class="paciente-avatar">M</div>
+                <div class="paciente-nome-bloco">
+                    <h2>Maria Silva</h2>
+                    <span class="tag-status">Em Acompanhamento</span>
+                </div>
+            </div>
+
+            <div class="paciente-dados-pílulas">
+                <div class="pílula-item">
+                    <span>Idade: 24 anos</span>
+                </div>
+                <div class="pílula-item">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>Início: 10/04/2026</span>
+                </div>
+                <div class="pílula-item pílula-destaque">
+                    <i class="fa-regular fa-clock"></i>
+                    <span>Próxima sessão: 20/05/2026</span>
+                </div>
+            </div>
+
+            <hr class="linha-divisoria">
+
+            <div class="progresso-tratamento-bloco">
+                <div class="progresso-texto">
+                    <span><i class="fa-solid fa-chart-line"></i>Progresso do Tratamento</span>
+                    <strong class="porcentagem">70%</strong>
+                </div>
+                <div class="barra-progresso-fundo">
+                    <div class="barra-progresso-preenchimento"></div>
+                </div>
+            </div>
+
+            <div class="grid-metricas-paciente">
+                <div class="cartao-metrica">
+                    <h3>7</h3>
+                    <p class="metrica-titulo">Sessões Realizadas</p>
+                    <p class="metrica-sub">de 10 planejadas</p>
+                </div>
+                <div class="cartao-metrica">
+                    <h3>86%</h3>
+                    <p class="metrica-titulo">Frequência</p>
+                    <p class="metrica-sub">6 de 7 compareceram</p>
+                </div>
+                <div class="cartao-metrica">
+                    <h3>3</h3>
+                    <p class="metrica-titulo">Em Andamento</p>
+                    <p class="metrica-sub">sem data de tratamento</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="alerta-supervisor">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <p><strong>Atenção:</strong> As sessões 3 e 5 estão pendentes de revisão pelo supervisor. Revise e submeta para aprovação.</p>
+        </div>
+        
+        <section class="secao-historico">
+            <div class="historico-header-linha">
+                <h3>Histórico de Atendimento</h3>
+                <div class="filtros-status">
+                    <span class="filtro-tag f-concluida"><i class="fa-regular fa-circle-check"></i> Concluída</span>
+                    <span class="filtro-tag f-pendente"><i class="fa-regular fa-circle-dot"></i> Pendente</span>
+                    <span class="filtro-tag f-agendada"><i class="fa-regular fa-calendar"></i> Agendada</span>
+                </div>
+            </div>
+
+            <div class="lista-sessoes">
+                
+                <div class="card-sessao concluida">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">1</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 1</h4>
+                                <span class="badge-status b-concluida">Concluída</span>
+                                <span class="badge-tag-clinica">Anamnese</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 10/04/2026</p>
+                        </div>
+                    </div>
+                    <button class="btn-visualizar"><i class="fa-regular fa-eye"></i> Visualizar</button>
+                </div>
+
+                <div class="card-sessao concluida">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">2</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 2</h4>
+                                <span class="badge-status b-concluida">Concluída</span>
+                                <span class="badge-tag-clinica">Genograma</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 17/04/2026</p>
+                        </div>
+                    </div>
+                    <button class="btn-visualizar"><i class="fa-regular fa-eye"></i> Visualizar</button>
+                </div>
+
+                <div class="card-sessao pendente">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">3</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 3</h4>
+                                <span class="badge-status b-pendente">Pendente de Revisão</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 24/04/2026 • Queixa Principal</p>
+                        </div>
+                    </div>
+                    <div class="sessao-botoes-grupo">
+                        <button class="btn-ajuda-supervisor" title="Ver correções do supervisor"><i class="fa-regular fa-comment-dots"></i> Ver Notas</button>
+                        <button class="btn-visualizar"><i class="fa-regular fa-pen-to-square"></i> Corrigir</button>
+                    </div>
+                </div>
+
+                <div class="card-sessao concluida">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">4</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 4</h4>
+                                <span class="badge-status b-concluida">Concluída</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 01/05/2026</p>
+                        </div>
+                    </div>
+                    <button class="btn-visualizar"><i class="fa-regular fa-eye"></i> Visualizar</button>
+                </div>
+
+                <div class="card-sessao pendente">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">5</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 5</h4>
+                                <span class="badge-status b-pendente">Pendente de Revisão</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 08/05/2026</p>
+                        </div>
+                    </div>
+                    <div class="sessao-botoes-grupo">
+                        <button class="btn-ajuda-supervisor" title="Ver correções do supervisor"><i class="fa-regular fa-comment-dots"></i> Ver Notas</button>
+                        <button class="btn-visualizar"><i class="fa-regular fa-pen-to-square"></i> Corrigir</button>
+                    </div>
+                </div>
+
+                <div class="card-sessao concluida">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">6</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 6</h4>
+                                <span class="badge-status b-concluida">Concluída</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 15/05/2026</p>
+                        </div>
+                    </div>
+                    <button class="btn-visualizar"><i class="fa-regular fa-eye"></i> Visualizar</button>
+                </div>
+
+                <div class="card-sessao rascunho">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">7</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 7</h4>
+                                <span class="badge-status b-rascunho">Rascunho</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 22/05/2026</p>
+                        </div>
+                    </div>
+                    <button class="btn-continuar-edicao"><i class="fa-solid fa-pen-to-square"></i> Continuar Edição</button>
+                </div>
+
+                <div class="card-sessao proxima">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">8</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 8</h4>
+                                <span class="badge-status b-proxima">Próxima Sessão</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 29/05/2026 às 15:30</p>
+                        </div>
+                    </div>
+                    <button class="btn-iniciar-atendimento"><i class="fa-solid fa-play"></i> Iniciar Evolução</button>
+                </div>
+
+                <div class="card-sessao futura">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">9</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 9</h4>
+                                <span class="badge-status b-futura">Agendada</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 05/06/2026</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-sessao futura">
+                    <div class="sessao-esquerda">
+                        <div class="sessao-numero">10</div>
+                        <div class="sessao-info-bloco">
+                            <div class="sessao-titulo-linha">
+                                <h4>Sessão 10</h4>
+                                <span class="badge-status b-futura">Agendada</span>
+                            </div>
+                            <p class="sessao-subtexto"><i class="fa-regular fa-calendar"></i> 12/06/2026</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div> 
+        </section>
+
+        <button class="btn-pdf-prontuario">
+            <i class="fa-solid fa-file-pdf"></i> Baixar Prontuário Completo (PDF)
+        </button> 
+    </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Notificações</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../../src/css/estagiario/global.css">
+    <link rel="stylesheet" href="../../src/css/estagiario/notificacoes.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+            
+            <hr class="linha-menu"> 
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-days"></i> Minha Agenda</a>
+                <a href="meus_pacientes.html"><i class="fa-solid fa-users"></i> Meus Pacientes</a>
+                <a href="prontuarios.html"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="avaliacao.html"><i class="fa-solid fa-graduation-cap"></i> Avaliação Acadêmica</a>
+            </nav>
+
+            <hr class="linha-menu">
+
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <a href="index.html" class="btn-voltar">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+
+            <div class="titulo-tela-wrapper">
+                <div class="titulo-tela">
+                    <h1>Central de Notificações</h1>
+                    <p>Acompanhe avisos importantes, prazos e atualizações do sistema.</p>
+                </div>
+                <button class="btn-marcar-lidas"><i class="fa-solid fa-check"></i> Marcar todas como lidas</button>
+            </div>
+
+            <div class="secao-notificacoes">
+                <div class="topo-secao">
+                    <h2 class="subtitulo-secao">Não Lidas</h2>
+                    <span class="badge-contador">4</span>
+                </div>
+
+                <div class="lista-cards">
+                    <div class="card-notificacao nao-lida">
+                        <div class="notificacao-icone icone-azul">
+                            <i class="fa-regular fa-comment-dots"></i>
+                        </div>
+                        <div class="notificacao-conteudo">
+                            <h3>Observações do Supervisor</h3>
+                            <p>O supervisor deixou observações na sua Avaliação Acadêmica.</p>
+                            <span class="notificacao-tempo">Há 5 min</span>
+                        </div>
+                        <div class="notificacao-acoes">
+                            <button class="btn-fechar">&times;</button>
+                            <a href="avaliacao.html" class="btn-acao-card">Ver Avaliação</a>
+                        </div>
+                    </div>
+
+                    <div class="card-notificacao nao-lida">
+                        <div class="notificacao-icone icone-laranja">
+                            <i class="fa-regular fa-clock"></i>
+                        </div>
+                        <div class="notificacao-conteudo">
+                            <h3>Prazo de Relatório</h3>
+                            <p>Relatório do paciente Lucas Albuquerque vence em 48h.</p>
+                            <span class="notificacao-tempo">Há 2h</span>
+                        </div>
+                        <div class="notificacao-acoes">
+                            <button class="btn-fechar">&times;</button>
+                            <a href="escrever_relat.html" class="btn-acao-card">Ir para Relatório</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="secao-notificacoes">
+                <div class="topo-secao">
+                    <h2 class="subtitulo-secao-simples">Anteriores</h2>
+                </div>
+
+                <div class="lista-cards">
+                    <div class="card-notificacao">
+                        <div class="notificacao-icone icone-verde">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+                        <div class="notificacao-conteudo">
+                            <h3>Relatório Entregue</h3>
+                            <p>Relatório do paciente Maria Santos foi enviado com sucesso.</p>
+                            <span class="notificacao-tempo">Ontem</span>
+                        </div>
+                        <div class="notificacao-acoes">
+                            <button class="btn-fechar">&times;</button>
+                            <a href="#" class="btn-acao-card btn-secundario">Ver Relatório</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-in - Paciente</title>
+    <link rel="stylesheet" href="../../src/css/paciente/global.css">
+    <link rel="stylesheet" href="../../src/css/paciente/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="check-in.html" class="active"><i class="fa-solid fa-calendar-check"></i> Check-in</a>
+                <a href="consultas.html"><i class="fa-solid fa-clipboard-list"></i> Consultas</a>
+                <a href="exames.html"><i class="fa-solid fa-file-medical"></i> Exames</a>
+                <a href="materiais.html"><i class="fa-solid fa-book-open"></i> Materiais</a>
+                <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina">
+                <h1>Check-in</h1>
+                <p>Confirme sua presença na clínica no dia da consulta.</p>
+            </header>
+
+            <div id="alerta-checkin" class="alert-box info"></div>
+
+            <div class="card-branco" id="conteudo-checkin" style="max-width:560px"></div>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        window.onload = async function () {
+            const sessao = await WebApp.initPagina({ tipos: ['paciente'], navAtivo: 'check-in.html' });
+            if (!sessao) return;
+
+            const dash = await ClinicaAPI.getDashboardPaciente(sessao.id);
+            const prox = dash.consultas.find((c) => c.data === ClinicaAPI.hoje && c.status === 'pendente') || dash.proximaConsulta;
+            const alerta = document.getElementById('alerta-checkin');
+            const conteudo = document.getElementById('conteudo-checkin');
+            const jaCheckIn = localStorage.getItem('checkInRealizado') === String(prox?.id);
+
+            alerta.textContent = dash.checkInDisponivel?.mensagem || 'Check-in do dia';
+
+            if (!prox || prox.status === 'cancelado') {
+                conteudo.innerHTML = '<p style="color:#64748b">Não há consulta ativa para check-in hoje.</p>';
+                return;
+            }
+
+            conteudo.innerHTML = `
+                <h3 style="margin-bottom:16px;color:#1e293b">${prox.dataLabel}</h3>
+                <p style="margin-bottom:8px"><strong>Horário:</strong> ${prox.horario}</p>
+                <p style="margin-bottom:8px"><strong>Sala:</strong> ${prox.salaNome}</p>
+                <p style="margin-bottom:20px"><strong>Estagiário:</strong> ${prox.estagiarioNome}</p>
+                <button type="button" class="btn-paciente" id="btn-checkin" style="width:100%;justify-content:center" ${jaCheckIn || prox.status !== 'pendente' ? 'disabled' : ''}>
+                    ${jaCheckIn ? '✓ Check-in realizado' : 'Fazer check-in agora'}
+                </button>
+            `;
+
+            const btn = document.getElementById('btn-checkin');
+            if (!jaCheckIn && prox.status === 'pendente') {
+                btn.addEventListener('click', async () => {
+                    await ClinicaAPI.fazerCheckIn(prox.id);
+                    localStorage.setItem('checkInRealizado', String(prox.id));
+                    alerta.className = 'alert-box sucesso';
+                    alerta.textContent = 'Check-in realizado! Dirija-se à recepção.';
+                    btn.disabled = true;
+                    btn.textContent = '✓ Check-in realizado';
+                });
+            } else if (jaCheckIn) {
+                alerta.className = 'alert-box sucesso';
+                alerta.textContent = 'Você já realizou o check-in desta consulta.';
+            }
+        };
+    </script>
+</body>
+</html>

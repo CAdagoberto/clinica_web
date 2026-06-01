@@ -1,0 +1,217 @@
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.btn-voltar:hover {
+    color: #2a75f3;
+}
+
+
+.titulo-tela-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.titulo-tela h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 6px 0;
+}
+
+.titulo-tela p {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0;
+}
+
+
+.btn-marcar-lidas {
+    background-color: #1a568b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.btn-marcar-lidas:hover {
+    background-color: #2a75f3;
+}
+
+
+.topo-secao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+
+.subtitulo-secao {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+}
+
+
+.subtitulo-secao-simples {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+}
+
+
+.badge-contador {
+    background-color: #40E0D0;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+
+.lista-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+}
+
+
+.card-notificacao {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 18px 24px;
+    border: 1px solid #e2e8f0;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+
+.card-notificacao.nao-lida {
+    border-left: 4px solid #40E0D0;
+}
+
+
+.notificacao-icone {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0; /* Impede que o ícone encolha */
+}
+
+/* Variações de cor do ícone por tipo de notificação */
+.icone-azul   { background-color: #e0f2fe; color: #0284c7; }
+.icone-laranja { background-color: #ffedd5; color: #ea580c; }
+.icone-verde  { background-color: #dcfce7; color: #16a34a; }
+
+
+.notificacao-conteudo {
+    flex: 1;
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+.notificacao-conteudo h3 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    color: #1a202c;
+    font-weight: 600;
+}
+
+.notificacao-conteudo p {
+    margin: 0 0 6px 0;
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+
+.notificacao-tempo {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+
+.notificacao-acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 68px;
+    flex-shrink: 0;
+}
+
+
+.btn-fechar {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 0.5;
+}
+
+.btn-fechar:hover {
+    color: #ef4444;
+}
+
+.btn-acao-card {
+    text-decoration: none;
+    background-color: #1a568b;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.btn-acao-card:hover {
+    background-color: #2a75f3;
+}
+
+
+.btn-acao-card.btn-secundario {
+    background-color: #f1f5f9;
+    color: #64748b;
+}
+
+.btn-acao-card.btn-secundario:hover {
+    background-color: #e2e8f0;
+}
+
+.titulo-tela-wrapper {
+    width: 100%;
+}
+
+.secao-notificacoes {
+    width: 100%;
+}

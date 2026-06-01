@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Consultas - Paciente</title>
+    <link rel="stylesheet" href="../../src/css/paciente/global.css">
+    <link rel="stylesheet" href="../../src/css/paciente/consultas.css">
+    <link rel="stylesheet" href="../../src/css/paciente/index.css">
+    <link rel="stylesheet" href="../../src/css/paciente/paginacao.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="check-in.html"><i class="fa-solid fa-calendar-check"></i> Check-in</a>
+                <a href="consultas.html" class="active"><i class="fa-solid fa-clipboard-list"></i> Consultas</a>
+                <a href="exames.html"><i class="fa-solid fa-file-medical"></i> Exames</a>
+                <a href="materiais.html"><i class="fa-solid fa-book-open"></i> Materiais</a>
+                <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina">
+                <h1>Minhas Consultas</h1>
+                <p>Histórico completo com filtros e paginação. Confirme ou cancele consultas futuras.</p>
+            </header>
+
+            <div class="filtros-barra">
+                <select id="filtro-status">
+                    <option value="">Todos os status</option>
+                    <option value="pendente">Aguardando confirmação</option>
+                    <option value="confirmado">Confirmadas</option>
+                    <option value="realizada">Realizadas</option>
+                    <option value="falta">Faltas</option>
+                    <option value="cancelado">Canceladas</option>
+                </select>
+                <select id="filtro-ordem">
+                    <option value="desc">Mais recentes primeiro</option>
+                    <option value="asc">Mais antigas primeiro</option>
+                </select>
+            </div>
+
+            <div class="card-branco lista-consultas-paciente" id="lista-consultas"></div>
+            <div id="paginacao-consultas"></div>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script src="../../src/js/paginacao.js"></script>
+    <script>
+        let paginaAtual = 1;
+        let consultasPaciente = [];
+
+        function obterListaFiltrada() {
+            const status = document.getElementById('filtro-status').value;
+            const ordem = document.getElementById('filtro-ordem').value;
+            let lista = [...consultasPaciente];
+            if (status) lista = lista.filter((c) => c.status === status);
+            lista.sort((a, b) =>
+                ordem === 'asc' ? a.data.localeCompare(b.data) : b.data.localeCompare(a.data)
+            );
+            return lista;
+        }
+
+        const renderizarConsultas = () => {
+            const lista = obterListaFiltrada();
+            const fatia = Paginacao.fatiar(lista, paginaAtual);
+            const container = document.getElementById('lista-consultas');
+
+            container.innerHTML = fatia.length
+                ? fatia.map((c) => Tpl.consultaPaciente(c)).join('')
+                : Tpl.vazio('Nenhuma consulta encontrada.');
+
+            container.querySelectorAll('[data-confirmar]').forEach((btn) => {
+                btn.onclick = async () => {
+                    await ClinicaAPI.atualizarStatusConsulta(Number(btn.dataset.confirmar), 'confirmado');
+                    consultasPaciente = await ClinicaAPI.getConsultasByUsuario(ClinicaAPI.getSessao().id);
+                    UI.toast('Consulta confirmada!');
+                    renderizarConsultas();
+                };
+            });
+
+            UI.animarFilhos(container, '.consulta-card-paciente');
+
+            Paginacao.renderizar('paginacao-consultas', {
+                totalItens: lista.length,
+                paginaAtual,
+                rotulo: 'consultas',
+                onMudarPagina: (nova) => {
+                    paginaAtual = nova;
+                    renderizarConsultas();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                },
+            });
+        }
+
+        window.onload = async function () {
+            const sessao = await WebApp.initPagina({ tipos: ['paciente'], navAtivo: 'consultas.html' });
+            if (!sessao) return;
+
+            await UI.carregar(
+                'lista-consultas',
+                () => ClinicaAPI.getConsultasByUsuario(sessao.id),
+                (lista) => {
+                    consultasPaciente = lista;
+                    renderizarConsultas();
+                },
+                { skeleton: 'list', count: 5 }
+            );
+
+            document.getElementById('filtro-status').addEventListener('change', () => { paginaAtual = 1; renderizarConsultas(); });
+            document.getElementById('filtro-ordem').addEventListener('change', () => { paginaAtual = 1; renderizarConsultas(); });
+        };
+    </script>
+</body>
+</html>

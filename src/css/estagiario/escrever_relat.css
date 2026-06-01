@@ -1,0 +1,274 @@
+
+.main-content.tela-relatorio {
+    max-width: 1250px;
+    padding: 40px;
+}
+
+.card-paciente {
+    background-color: white;
+    padding: 25px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    border: 1px solid #e2e8f0;
+    max-width: 700px;
+    margin-bottom: 10px;
+}
+
+.perfil-principal {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+
+.avatar-perfil {
+    width: 80px;
+    height: 80px;
+    background-color: #f1f5f9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: #2a75f3;
+}
+
+.info-sessao {
+    display: flex;
+    gap: 40px;
+    border-left: 1px solid #e2e8f0;
+    padding-left: 30px;
+}
+
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-info label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.item-info span {
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+.cabecalho-instrucao h2 {
+    color: #2c3e50;
+    font-size: 18px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.cabecalho-instrucao p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+
+/* ====================================
+   Parte escrita: Relatório e Dúvidas
+   ===================================== */
+
+/* Largura máxima compartilhada pelos dois blocos de escrita */
+.bloco-relatorio,
+.bloco-duvidas {
+    width: 85%;
+    max-width: 900px;
+}
+
+
+.bloco-relatorio label,
+.bloco-duvidas label {
+    color: #2c3e50;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.bloco-relatorio textarea {
+    margin-top: 15px;
+    height: 250px;
+}
+
+
+.bloco-duvidas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+/* Textarea menor para a seção de dúvidas */
+.bloco-duvidas .textarea-linhas {
+    min-height: 150px;
+}
+
+.textarea-linhas {
+    width: 100%;
+    min-height: 250px;
+    padding: 20px;
+    padding-bottom: 60px;
+    line-height: 30px;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    resize: none;
+    outline: none;
+    box-sizing: border-box;
+    background-image:
+        linear-gradient(#f1f5f9 1px, transparent 1px),
+        linear-gradient(white, white);
+    background-size: 100% 30px, auto;
+    background-repeat: repeat-y, no-repeat;
+    background-position: 0 19px, 0 0;
+    background-origin: content-box, border-box;
+    background-clip: content-box, border-box;
+}
+
+
+
+.linha-separacao {
+    border: none;
+    border-top: 2px solid #357efc;
+    margin: 17px auto;
+    width: 480px;
+    opacity: 0.3;
+}
+
+.btn-clipe {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #40E0D0;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+
+/* ==========================================================================
+            Botões: Cancelar, Salvar Rascunho e Enviar
+   ========================================================================== */
+
+
+.rodape-acoes {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    
+    width: 100%;
+    max-width: unset; 
+    
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+}
+
+
+.btn-cancelar {
+    background-color: #f1f5f9;
+    color: #64748b;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Agrupa os botões Salvar Rascunho e Enviar lado a lado */
+.finalizacao-relatorio {
+    display: flex;
+    gap: 15px;
+}
+
+
+.btn-rascunho {
+    background: white;
+    border: 2px solid #2a75f3;
+    color: #2a75f3;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-enviar-final {
+    background-color: #2a75f3;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 35px; 
+    transition: color 0.3s;
+}
+
+.btn-voltar:hover {
+    color: #2a75f3;
+}
+
+.card-selecao-paciente {
+    background-color: white;
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid #e2e8f0;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 40%;
+}
+
+.card-selecao-paciente label {
+    font-weight: 600;
+    font-size: 16px;
+    color: #2c3e50;
+}
+
+.card-selecao-paciente select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-size: 15px;
+    color: #64748b;
+    background-color: #f8fafc;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    cursor: pointer;
+}
+
+#container-selecao-paciente {
+    align-self: stretch;
+    max-width: 900px;
+    width: 85%;
+}

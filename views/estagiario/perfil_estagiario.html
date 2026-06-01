@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Clínica Psiquiátrica</title>
+    <link rel="stylesheet" href="../../src/css/estagiario/global.css">
+    <link rel="stylesheet" href="../../src/css/estagiario/perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+
+            <hr class="linha-menu">
+
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-days"></i> Minha Agenda</a>
+                <a href="meus_pacientes.html"><i class="fa-solid fa-users"></i> Meus Pacientes</a>
+                <a href="prontuarios.html"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="avaliacao.html"><i class="fa-solid fa-graduation-cap"></i> Avaliação Acadêmica</a>
+            </nav>
+
+            <hr class="linha-menu">
+
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+           <header class="top-header">
+             <a href="index.html" class="btn-voltar">
+                 <i class="fa-solid fa-arrow-left"></i> Voltar para o Início
+             </a>
+            </header>
+
+            <section class="perfil-container">
+                
+                <div class="card-perfil-principal">
+                    <div class="avatar-grande" id="avatar-perfil-letra">A</div>
+                    <div class="perfil-identificacao">
+                        <h2 id="nome-perfil-usuario">Carregando...</h2>
+                        <span class="tag-cargo">Estagiário de Psicologia</span>
+                        <p class="texto-sublinha">RA: 202604129 • Clínica-Escola de Psicologia</p>
+                    </div>
+                </div>
+
+                <div class="perfil-detalhes-grid">
+                    
+                    <div class="card-dados">
+                        <h3><i class="fa-solid fa-graduation-cap"></i> Informações Acadêmicas</h3>
+                        
+                        <div class="linha-dado">
+                            <strong>Supervisor Clínico:</strong>
+                            <span>Prof. Dr. Marcos Oliveira (CRP 06/12345)</span>
+                        </div>
+                        
+                        <div class="linha-dado">
+                            <strong>Período / Semestre:</strong>
+                            <span>7º Semestre (Vespertino)</span>
+                        </div>
+                        
+                        <div class="linha-dado">
+                            <strong>Carga Horária Concluída:</strong>
+                            <div class="progresso-horas-container">
+                                <span>120h de 250h totais</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-dados">
+                        <h3><i class="fa-solid fa-address-card"></i> Contato e Acesso</h3>
+                        
+                        <div class="linha-dado">
+                            <strong>E-mail Institucional:</strong>
+                            <span>ana.silva@universidade.edu.br</span>
+                        </div>
+                        
+                        <div class="linha-dado">
+                            <strong>Telefone de Contato:</strong>
+                            <span>(11) 98765-4321</span>
+                        </div>
+                        
+                        <div class="linha-dado">
+                            <strong>Status da Conta:</strong>
+                            <span class="status-ativo"><i class="fa-solid fa-circle"></i> Matrícula Ativa</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const nomeSalvo = localStorage.getItem('usuarioNome') || "Ana Carolina Silva";
+            const elementoNome = document.getElementById('nome-perfil-usuario');
+            const elementoAvatar = document.getElementById('avatar-perfil-letra');
+
+            if(elementoNome) elementoNome.innerText = nomeSalvo;
+            if(elementoAvatar) elementoAvatar.innerText = nomeSalvo.charAt(0).toUpperCase();
+        };
+    </script>
+</body>
+</html>

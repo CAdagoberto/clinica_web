@@ -1,0 +1,54 @@
+.caixa-tabela-admin {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 24px 30px;
+    border: 1px solid #e2e8f0;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.header-tabela-admin {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 0.7fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 16px 0;
+    background-color: #f8fafc;
+    margin: 0 -30px 12px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #475569;
+}
+
+.linha-prontuario-admin {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 0.7fr 1fr 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+}
+
+.linha-prontuario-admin:last-child {
+    border-bottom: none;
+}
+
+.linha-prontuario-admin .nome {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.status-pendente { color: #d97706; font-weight: 600; }
+.status-enviado { color: #16a34a; font-weight: 600; }
+.status-andamento { color: #3b82f6; font-weight: 600; }
+.status-revisao { color: #9333ea; font-weight: 600; }
+
+@media (max-width: 900px) {
+    .header-tabela-admin,
+    .linha-prontuario-admin {
+        grid-template-columns: 1fr;
+    }
+    .header-tabela-admin { display: none; }
+}

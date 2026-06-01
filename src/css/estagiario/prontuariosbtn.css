@@ -1,0 +1,159 @@
+
+.titulo-pagina {
+    font-size: 24px;
+    color: #2c3e50;
+    font-weight: 700;
+    border-left: 5px solid #40E0D0;
+    padding-left: 15px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.subtitulo-pagina {
+    color: #64748b;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+
+/* ==========================================================================
+   BOTÃO VOLTAR
+   ========================================================================== */
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 35px;
+    transition: color 0.3s;
+}
+
+.btn-voltar:hover {
+    color: #2a75f3;
+}
+
+
+/* ==========================================================================
+   CAIXA DA TABELA
+   ========================================================================== */
+
+.caixa-tabela-relatorio {
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 30px;
+    padding-bottom: 10px;
+    border: 1px solid #dbeafe;
+    max-width: 865px;
+    margin-top: 10px;
+}
+
+
+.header-interno-tabela {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+
+.titulo-tabela {
+    color: #334155;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+
+.header-tabela {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1.5fr; 
+    align-items: center;
+    margin-right: -30px;
+    margin-left: -30px;
+    width: calc(100% + 60px);
+    padding: 22px 30px;
+    background-color: #f8fafc;
+    margin-bottom: 5px;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    gap: 25px;
+}
+/* Títulos das colunas */
+.header-tabela span {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+}
+
+
+.header-tabela span:last-child,
+.linha-paciente .acoes {
+    display: flex;
+    justify-content: center;
+}
+
+
+.linha-paciente {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1.5fr; 
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+    gap: 25px;
+}
+
+
+.linha-paciente:last-child {
+    border-bottom: none;
+}
+
+
+.linha-paciente span {
+    color: #475569;
+    font-size: 15px;
+}
+
+.linha-paciente .nome {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+
+.linha-paciente .status-pendente { color: #f59e0b; font-weight: 600; }
+.linha-paciente .status-enviado  { color: #10b981; font-weight: 600; }
+.linha-paciente .status-rascunho { color: blueviolet; font-weight: 600; }
+
+
+.btn-tabela {
+    padding: 8px 18px;
+    border-radius: 25px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+.btn-tabela:hover {
+    filter: brightness(1.1);
+}
+
+
+.visualizar { 
+    background-color: #5cb3b1; 
+} 
+.iniciar    { 
+    background-color: #003399; 
+} 
+.continuar  { 
+    background-color: #5cb3b1; 
+} 

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estagiários - Gestão</title>
+    <link rel="stylesheet" href="../../src/css/admin/global.css">
+    <link rel="stylesheet" href="../../src/css/admin/estagiarios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-admin">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-chart-line"></i> Visão Geral</a>
+                <a href="estagiarios.html" class="active"><i class="fa-solid fa-user-graduate"></i> Estagiários</a>
+                <a href="consultas.html"><i class="fa-solid fa-calendar-check"></i> Consultas</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-plus"></i> Agendar Consulta</a>
+                <a href="prontuarios.html"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="salas.html"><i class="fa-solid fa-door-open"></i> Salas</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina">
+                <h1>Gestão de Estagiários</h1>
+                <p>Cadastre estagiários e pacientes. Dados salvos no navegador (localStorage).</p>
+            </header>
+
+            <div class="filtros-barra">
+                <input type="search" id="busca-estagiario" placeholder="Buscar por nome ou e-mail...">
+                <div class="btn-grupo">
+                    <button type="button" class="btn-admin-primario" id="btn-novo-estagiario"><i class="fa-solid fa-user-plus"></i> Novo estagiário</button>
+                    <button type="button" class="btn-admin-secundario" id="btn-novo-paciente"><i class="fa-solid fa-user-injured"></i> Novo paciente</button>
+                    <a href="agendar_consulta.html" class="btn-admin-secundario"><i class="fa-solid fa-calendar-plus"></i> Agendar</a>
+                </div>
+            </div>
+
+            <div class="container-cards-estagiarios" id="lista-estagiarios"></div>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        let lista = [];
+        let sessao = null;
+
+        const montarLista = (filtro = '') => {
+            const termo = filtro.toLowerCase();
+            const filtrados = lista.filter(
+                (e) => e.nome.toLowerCase().includes(termo) || e.email.toLowerCase().includes(termo)
+            );
+
+            const el = document.getElementById('lista-estagiarios');
+            el.innerHTML = filtrados.length
+                ? filtrados.map((e) => Tpl.cardEstagiario(e)).join('')
+                : Tpl.vazio('Nenhum estagiário encontrado.');
+            UI.animarFilhos(el, '.card-estagiario');
+        };
+
+        const recarregar = async () => {
+            const dash = await ClinicaAPI.getDashboardAdmin();
+            lista = dash.estagiarios;
+            montarLista(Tpl.val('busca-estagiario'));
+        };
+
+        window.onload = async () => {
+            sessao = await WebApp.initPagina({ tipos: ['admin'], navAtivo: 'estagiarios.html' });
+            if (!sessao) return;
+
+            await UI.carregar(
+                'lista-estagiarios',
+                () => ClinicaAPI.getDashboardAdmin(),
+                (dash) => {
+                    lista = dash.estagiarios;
+                    montarLista();
+                },
+                { skeleton: 'card', count: 4 }
+            );
+
+            document.getElementById('busca-estagiario').addEventListener('input', (e) => montarLista(e.target.value));
+
+            document.getElementById('btn-novo-estagiario').onclick = () => {
+                UI.abrirModal({
+                    titulo: 'Novo estagiário',
+                    subtitulo: 'Senha padrão: 123456',
+                    htmlCorpo: Tpl.formNovoEstagiario(),
+                    onConfirmar: async () => {
+                        await ClinicaAPI.cadastrarEstagiario(
+                            {
+                                nome: Tpl.val('m-est-nome'),
+                                email: Tpl.val('m-est-email'),
+                                ra: Tpl.val('m-est-ra'),
+                                supervisor: Tpl.val('m-est-sup'),
+                            },
+                            { atorTipo: 'admin', atorId: sessao.id }
+                        );
+                        UI.toast('Estagiário cadastrado!');
+                        await recarregar();
+                    },
+                });
+            };
+
+            document.getElementById('btn-novo-paciente').onclick = async () => {
+                const estagiarios = await ClinicaAPI.getEstagiarios();
+                UI.abrirModal({
+                    titulo: 'Novo paciente',
+                    subtitulo: 'Vincule a um estagiário responsável.',
+                    htmlCorpo: Tpl.formNovoPaciente(Tpl.opcoes(estagiarios)),
+                    onConfirmar: async () => {
+                        await ClinicaAPI.cadastrarPaciente(
+                            {
+                                nome: Tpl.val('m-pac-nome'),
+                                email: Tpl.val('m-pac-email'),
+                                cpf: Tpl.val('m-pac-cpf'),
+                                telefone: Tpl.val('m-pac-tel'),
+                                responsavelEstagiarioId: Tpl.num('m-pac-est'),
+                            },
+                            { atorTipo: 'admin', atorId: sessao.id }
+                        );
+                        UI.toast('Paciente cadastrado!');
+                        await recarregar();
+                    },
+                });
+            };
+        };
+    </script>
+</body>
+</html>

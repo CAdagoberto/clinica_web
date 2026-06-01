@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Clínica Psiquiátrica</title>
+    <link rel="stylesheet" href="src/css/login.css">
+    <link rel="stylesheet" href="src/css/shared/animations.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="logo-avatar">CP</div>
+
+        <div class="header-text">
+            <h2 id="saudacao">Bem-vindo(a)!</h2>
+            <h1>CLÍNICA PSIQUIÁTRICA</h1>
+        </div>
+
+        <div id="tela-login">
+            <form id="form-login" action="#" method="POST">
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+                </div>
+
+                <button type="submit" class="login-btn" id="btn-entrar">Entrar</button>
+            </form>
+
+            <p style="font-size:12px;color:#64748b;margin-top:16px;text-align:center;line-height:1.5">
+                Teste: admin@clinica.com · estagiario@clinica.com · paciente@clinica.com<br>Senha: 123456
+            </p>
+
+            <div class="toggle-link">
+                <a href="#" id="btn-primeiro-acesso">Primeiro acesso? Crie sua senha</a>
+            </div>
+        </div>
+
+        <div id="tela-primeiro-acesso" style="display: none;">
+            <form id="form-cadastro" action="#" method="POST">
+                <div class="input-group">
+                    <label for="cpf">CPF (Somente números)</label>
+                    <input type="text" id="cpf" name="cpf" placeholder="Digite os 11 dígitos" maxlength="11" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="nome">Nome do Paciente</label>
+                    <input type="text" id="nome" name="nome" placeholder="Preenchimento automático" readonly>
+                </div>
+
+                <div class="input-group">
+                    <label for="novo-email">Cadastre seu E-mail</label>
+                    <input type="email" id="novo-email" name="novo-email" placeholder="Digite seu e-mail" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="nova-senha">Crie uma Senha</label>
+                    <input type="password" id="nova-senha" name="nova-senha" placeholder="Crie sua senha" required>
+                </div>
+
+                <button type="submit" class="login-btn">Finalizar Cadastro</button>
+            </form>
+
+            <div class="toggle-link">
+                <a href="#" id="btn-voltar-login">Voltar para o Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/mockApi.js"></script>
+    <script src="src/js/login.js"></script>
+</body>
+</html>

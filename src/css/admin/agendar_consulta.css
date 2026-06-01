@@ -1,0 +1,101 @@
+.formulario-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+    max-width: 650px;
+}
+
+.card-formulario {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    width: 100%;
+}
+
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.grupo-input label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.wrapper-input-icone {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.card-formulario input,
+.card-formulario select {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+    color: #334155;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    outline: none;
+    appearance: none;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.card-formulario input:focus,
+.card-formulario select:focus {
+    border-color: #3b82f6;
+}
+
+.icone-seletor {
+    position: absolute;
+    right: 20px;
+    color: #94a3b8;
+    font-size: 13px;
+    pointer-events: none;
+}
+
+.texto-ajuda {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.botoes-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-cancelar {
+    background-color: #f1f5f9;
+    color: #64748b;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-confirmar {
+    background-color: #3b82f6;
+    color: #ffffff;
+    border: none;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.btn-confirmar:hover {
+    background-color: #2563eb;
+}

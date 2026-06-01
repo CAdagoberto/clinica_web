@@ -1,0 +1,35 @@
+.lista-consultas-paciente {
+    width: 100%;
+}
+
+.consulta-card-paciente {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid #f1f5f9;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.consulta-card-paciente:last-child {
+    border-bottom: none;
+}
+
+.consulta-card-paciente strong {
+    display: block;
+    font-size: 16px;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.consulta-card-paciente span {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.consulta-acoes-paciente {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}

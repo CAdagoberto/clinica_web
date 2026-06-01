@@ -1,0 +1,290 @@
+/* Layout global — painel administrativo */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #f1f5f9;
+    color: #334155;
+    height: 100vh;
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background-color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    padding-bottom: 12px;
+}
+
+.logo-admin {
+    background-color: #3b82f6;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.sidebar nav {
+    flex: 1;
+}
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    transition: 0.3s;
+}
+
+.sidebar nav a i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+    background-color: #334155;
+    color: #ffffff;
+}
+
+.linha-menu {
+    border: none;
+    border-top: 1px solid #334155;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.sidebar-footer a {
+    text-decoration: none;
+    color: #f87171;
+    font-weight: 600;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-avatar {
+    width: 55px;
+    height: 55px;
+    background-color: #3b82f6;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+.user-info p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.user-info h2 {
+    font-size: 20px;
+    color: #0f172a;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid #cbd5e1;
+    background: white;
+    cursor: pointer;
+    font-size: 16px;
+    color: #64748b;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.icon-btn:hover {
+    background-color: #e2e8f0;
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    transition: 0.3s;
+    margin-bottom: 25px;
+    background: white;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-voltar:hover {
+    color: #3b82f6;
+    border-color: #bfdbfe;
+}
+
+.cabecalho-pagina {
+    margin-bottom: 28px;
+    width: 100%;
+}
+
+.cabecalho-pagina h1 {
+    font-size: 26px;
+    color: #0f172a;
+    font-weight: 700;
+    border-left: 6px solid #3b82f6;
+    padding-left: 15px;
+    margin-bottom: 8px;
+}
+
+.cabecalho-pagina p {
+    color: #64748b;
+    font-size: 15px;
+    margin-left: 21px;
+}
+
+.filtros-barra {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+    width: 100%;
+    align-items: center;
+}
+
+.filtros-barra select,
+.filtros-barra input {
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    background: white;
+    min-width: 160px;
+}
+
+.filtros-barra select:focus,
+.filtros-barra input:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.btn-admin-primario {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+.btn-admin-primario:hover {
+    background-color: #2563eb;
+}
+
+.btn-admin-secundario {
+    background-color: #e0f2fe;
+    color: #0284c7;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+
+.btn-admin-secundario:hover {
+    background-color: #0284c7;
+    color: white;
+}
+
+.btn-admin-secundario.disabled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.card-branco {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    width: 100%;
+}

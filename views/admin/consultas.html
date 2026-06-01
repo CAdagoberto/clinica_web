@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas - Gestão</title>
+    <link rel="stylesheet" href="../../src/css/admin/global.css">
+    <link rel="stylesheet" href="../../src/css/admin/consultas.css">
+    <link rel="stylesheet" href="../../src/css/admin/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-admin">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-chart-line"></i> Visão Geral</a>
+                <a href="estagiarios.html"><i class="fa-solid fa-user-graduate"></i> Estagiários</a>
+                <a href="consultas.html" class="active"><i class="fa-solid fa-calendar-check"></i> Consultas</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-plus"></i> Agendar Consulta</a>
+                <a href="prontuarios.html"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="salas.html"><i class="fa-solid fa-door-open"></i> Salas</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina">
+                <h1>Todas as Consultas</h1>
+                <p>Gerencie os atendimentos de todos os estagiários. Filtre por profissional ou status.</p>
+            </header>
+
+            <div class="filtros-barra">
+                <select id="filtro-estagiario">
+                    <option value="">Todos os estagiários</option>
+                </select>
+                <select id="filtro-status">
+                    <option value="">Todos os status</option>
+                    <option value="pendente">Aguardando</option>
+                    <option value="confirmado">Em atendimento</option>
+                    <option value="realizada">Finalizada</option>
+                    <option value="cancelado">Cancelada</option>
+                </select>
+                <input type="date" id="filtro-data" value="">
+                <a href="agendar_consulta.html" class="btn-admin-primario"><i class="fa-solid fa-plus"></i> Nova consulta</a>
+            </div>
+
+            <div class="card-branco lista-consultas-admin" id="lista-consultas"></div>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        let todasConsultas = [];
+
+        function renderizarConsultas() {
+            const estId = document.getElementById('filtro-estagiario').value;
+            const status = document.getElementById('filtro-status').value;
+            const data = document.getElementById('filtro-data').value;
+
+            let lista = [...todasConsultas];
+            if (estId) lista = lista.filter((c) => String(c.estagiarioId) === estId);
+            if (status) lista = lista.filter((c) => c.status === status);
+            if (data) lista = lista.filter((c) => c.data === data);
+
+            const el = document.getElementById('lista-consultas');
+            if (!lista.length) {
+                el.innerHTML = '<p style="padding:20px;color:#64748b">Nenhuma consulta encontrada com os filtros selecionados.</p>';
+                return;
+            }
+
+            el.innerHTML = lista.map((c) => {
+                const st = ClinicaAPI.mapStatusAdmin(c.status);
+                return `
+                <div class="consulta-linha-admin">
+                    <div class="col-principal">
+                        <strong>${c.pacienteNome}</strong>
+                        <span>
+                            <i class="fa-solid fa-user-graduate"></i> ${c.estagiarioNome} •
+                            ${c.data} às ${c.horario} • ${c.salaNome} • ${c.tipo || 'Consulta'} •
+                            <em class="${st.classe}">${st.texto}</em>
+                        </span>
+                    </div>
+                    <div class="consulta-acoes">
+                        <a href="estagiario_detalhe.html?id=${c.estagiarioId}" class="btn-admin-secundario">Estagiário</a>
+                        <a href="../estagiario/prontuario.html" class="btn-admin-secundario">Prontuário</a>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        window.onload = async function () {
+            const sessao = await WebApp.initPagina({ tipos: ['admin'], navAtivo: 'consultas.html' });
+            if (!sessao) return;
+
+            todasConsultas = await ClinicaAPI.getConsultasByUsuario(sessao.id);
+            document.getElementById('filtro-data').value = ClinicaAPI.hoje;
+
+            const dash = await ClinicaAPI.getDashboardAdmin();
+            const selectEst = document.getElementById('filtro-estagiario');
+            dash.estagiarios.forEach((e) => {
+                const opt = document.createElement('option');
+                opt.value = e.id;
+                opt.textContent = e.nome;
+                selectEst.appendChild(opt);
+            });
+
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('estagiario')) selectEst.value = params.get('estagiario');
+
+            ['filtro-estagiario', 'filtro-status', 'filtro-data'].forEach((id) => {
+                document.getElementById(id).addEventListener('change', renderizarConsultas);
+            });
+
+            renderizarConsultas();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Sessão - Clínica</title>
+    <link rel="stylesheet" href="../../src/css/estagiario/global.css">
+    <link rel="stylesheet" href="../../src/css/estagiario/escrever_relat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
+</head>
+<body>
+    <!--menu-->
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-days"></i> Minha Agenda</a>
+                <a href="meus_pacientes.html"><i class="fa-solid fa-users"></i> Meus Pacientes</a>
+                <a href="prontuarios.html" class="active"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="avaliacao.html"><i class="fa-solid fa-graduation-cap"></i> Avaliação Acadêmica</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+        <!--card do paciente-->
+        <main class="main-content tela-relatorio">
+            <a href="#" onclick="history.back(); return false;" class="btn-voltar">
+                <i class="fa-solid fa-arrow-left"></i>Voltar
+            </a>
+
+            <div id="container-selecao-paciente" style="display: none; margin-bottom: 20px;">
+                <div class="card-selecao-paciente">
+                    <label>Selecione o Paciente</label>
+                    <select id="select-paciente">
+                        <option value="">Escolha um paciente...</option>
+                        <option value="1">Maria Silva</option>
+                        <option value="2">Laura Souza</option>
+                        <option value="3">Matheus Silva</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card-paciente" id="card-paciente-preenchido">
+                
+                <div class="perfil-principal">
+                    <div class="avatar-perfil" id="avatar-paciente">M</div>
+                    <div class="nome-idade">
+                        <h3 id="nome-paciente">Matheus Silva</h3>
+                        <span id="idade-paciente">Idade: 21</span>
+                    </div>
+                </div>
+
+                <div class="info-sessao">
+                    <div class="item-info">
+                        <label>Sessão Atual</label>
+                        <span>08/10</span>
+                    </div>
+                    <div class="item-info">
+                        <label>Último Atendimento</label>
+                        <span>05/03/2026 15:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="linha-separacao">
+
+            <div class="cabecalho-instrucao">
+                <h2>Novo Relatório</h2>
+                <p>Preencha os campos abaixo com os detalhes da sessão para a orientação do supervisor.</p>
+            </div>
+
+            <div class="bloco-relatorio">
+                <label>Resumo do Atendimento</label>
+                <textarea class="textarea-linhas" placeholder="Descreva aqui o que aconteceu na sessão..."></textarea>
+            </div>
+
+            <div class="anexo-container">
+                
+                <input type="file" id="upload-clipe" hidden>
+                <label for="upload-clipe" class="btn-clipe">
+                    <span>📎</span> Anexar Material
+                </label>
+            </div>
+            <!--Dúvidas-->
+            <div class="bloco-duvidas">
+                <label>Dúvidas para Supervisão</label>
+                <textarea class="textarea-linhas" placeholder="Tem alguma dúvida sobre este caso?"></textarea>
+            </div>
+            <!--Rodapé-->
+            <div class="rodape-acoes">
+                <button class="btn-cancelar">Cancelar</button>
+                <div class="finalizacao-relatorio">
+                    <button class="btn-rascunho">Salvar Rascunho</button>
+                    <button class="btn-enviar-final">Enviar Relatório</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const pacienteId = urlParams.get('id');
+
+        if (!pacienteId) {
+            
+            document.getElementById('card-paciente-preenchido').style.display = 'none';
+            document.getElementById('container-selecao-paciente').style.display = 'block';
+        } else {
+            
+            console.log("Carregando prontuário do paciente: " + pacienteId);
+        
+    }
+
+    document.getElementById('select-paciente').addEventListener('change', function() {
+        if (this.value) {
+            document.getElementById('container-selecao-paciente').style.display = 'none';
+            document.getElementById('card-paciente-preenchido').style.display = 'flex';
+           
+        }
+    });
+</script>
+
+</body>
+</html>

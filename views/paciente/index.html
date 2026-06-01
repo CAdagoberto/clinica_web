@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início - Paciente | Clínica Psiquiátrica</title>
+    <link rel="stylesheet" href="../../src/css/paciente/global.css">
+    <link rel="stylesheet" href="../../src/css/paciente/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html" class="active"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="check-in.html"><i class="fa-solid fa-calendar-check"></i> Check-in</a>
+                <a href="consultas.html"><i class="fa-solid fa-clipboard-list"></i> Consultas</a>
+                <a href="exames.html"><i class="fa-solid fa-file-medical"></i> Exames</a>
+                <a href="materiais.html"><i class="fa-solid fa-book-open"></i> Materiais</a>
+                <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="user-info">
+                    <div class="user-avatar" id="avatar-letra">L</div>
+                    <div>
+                        <p>Bem-vindo(a)!</p>
+                        <h2 id="nome-usuario">Carregando...</h2>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <a href="check-in.html" class="icon-btn" title="Check-in"><i class="fa-solid fa-calendar-check"></i></a>
+                    <a href="exames.html" class="icon-btn" title="Exames"><i class="fa-regular fa-bell"></i></a>
+                </div>
+            </header>
+
+            <section class="dashboard-grid">
+                <div class="section-container">
+                    <h3>Sua próxima consulta</h3>
+                    <div class="card-proxima-consulta" id="card-proxima"></div>
+                </div>
+
+                <div class="section-container">
+                    <h3>Materiais de apoio</h3>
+                    <div class="materiais-flex" id="materiais-preview"></div>
+                    <a href="materiais.html" class="ver-todas-link">Ver todos os materiais →</a>
+                </div>
+
+                <div class="section-container full-width">
+                    <h3>Histórico recente</h3>
+                    <div class="historico-lista" id="historico-recente"></div>
+                    <a href="consultas.html" class="ver-todas-link">Ver histórico completo com paginação →</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        let dashPaciente = null;
+
+        const montarProxima = () => {
+            const c = dashPaciente?.proximaConsulta;
+            const el = document.getElementById('card-proxima');
+            if (!c) {
+                el.innerHTML = Tpl.vazio('Nenhuma consulta agendada.');
+                return;
+            }
+            el.innerHTML = Tpl.proximaConsultaPaciente(c);
+
+            document.getElementById('btn-confirmar')?.addEventListener('click', async () => {
+                await ClinicaAPI.atualizarStatusConsulta(c.id, 'confirmado');
+                UI.toast('Consulta confirmada!');
+                dashPaciente = await ClinicaAPI.getDashboardPaciente(ClinicaAPI.getSessao().id);
+                montarProxima();
+            });
+
+            document.getElementById('btn-cancelar')?.addEventListener('click', async () => {
+                if (!confirm('Deseja cancelar esta consulta?')) return;
+                await ClinicaAPI.atualizarStatusConsulta(c.id, 'cancelado');
+                UI.toast('Consulta cancelada.');
+                window.location.href = 'consultas.html';
+            });
+        };
+
+        window.onload = async () => {
+            const sessao = await WebApp.initPagina({ tipos: ['paciente'], navAtivo: 'index.html' });
+            if (!sessao) return;
+
+            document.getElementById('card-proxima').innerHTML = UI.htmlSkeleton('card', 1);
+            dashPaciente = await ClinicaAPI.getDashboardPaciente(sessao.id);
+            await UI.delay(350);
+            montarProxima();
+
+            const materiais = dashPaciente.materiais.filter((m) => m.disponivel).slice(0, 2);
+            document.getElementById('materiais-preview').innerHTML = materiais.length
+                ? materiais.map((m) => Tpl.materialCard(m)).join('')
+                : Tpl.vazio('Nenhum material disponível.');
+
+            const historico = dashPaciente.consultas.filter((c) => c.status !== 'pendente').slice(0, 3);
+            document.getElementById('historico-recente').innerHTML = historico.length
+                ? historico.map((c) => Tpl.historicoPaciente(c)).join('')
+                : Tpl.vazio('Sem histórico recente.');
+
+            UI.animarFilhos(document.querySelector('.dashboard-grid'));
+        };
+    </script>
+</body>
+</html>

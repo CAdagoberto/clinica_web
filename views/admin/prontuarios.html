@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontuários - Gestão</title>
+    <link rel="stylesheet" href="../../src/css/admin/global.css">
+    <link rel="stylesheet" href="../../src/css/admin/prontuarios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-admin">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-chart-line"></i> Visão Geral</a>
+                <a href="estagiarios.html"><i class="fa-solid fa-user-graduate"></i> Estagiários</a>
+                <a href="consultas.html"><i class="fa-solid fa-calendar-check"></i> Consultas</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-plus"></i> Agendar Consulta</a>
+                <a href="prontuarios.html" class="active"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="salas.html"><i class="fa-solid fa-door-open"></i> Salas</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina">
+                <h1>Prontuários — Visão Geral</h1>
+                <p>Acompanhe prontuários de todos os pacientes e o estagiário responsável por cada atendimento.</p>
+            </header>
+
+            <div class="filtros-barra">
+                <select id="filtro-est-prontuario">
+                    <option value="">Todos os estagiários</option>
+                </select>
+            </div>
+
+            <div class="caixa-tabela-admin">
+                <div class="header-tabela-admin">
+                    <span>Paciente</span>
+                    <span>Estagiário</span>
+                    <span>Sessão</span>
+                    <span>Último atend.</span>
+                    <span>Supervisor</span>
+                    <span>Status / Ação</span>
+                </div>
+                <div id="corpo-tabela-prontuarios"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        const statusMap = {
+            pendente: { label: 'Pendente', cls: 'status-pendente' },
+            enviado: { label: 'Enviado', cls: 'status-enviado' },
+            andamento: { label: 'Em andamento', cls: 'status-andamento' },
+            revisao: { label: 'Em revisão', cls: 'status-revisao' },
+        };
+
+        async function renderizarProntuarios() {
+            const est = document.getElementById('filtro-est-prontuario').value;
+            const lista = await ClinicaAPI.getProntuarios(est ? Number(est) : null);
+
+            document.getElementById('corpo-tabela-prontuarios').innerHTML = lista.map((p) => {
+                const st = statusMap[p.status] || statusMap.pendente;
+                return `
+                <div class="linha-prontuario-admin">
+                    <span class="nome">${p.paciente}</span>
+                    <span>${p.estagiario}</span>
+                    <span>${p.sessao}</span>
+                    <span>${p.ultimo}</span>
+                    <span>${p.supervisor}</span>
+                    <span>
+                        <span class="${st.cls}">${st.label}</span><br>
+                        <a href="../estagiario/prontuario.html" class="btn-admin-secundario" style="margin-top:8px">Abrir</a>
+                    </span>
+                </div>`;
+            }).join('') || '<p style="padding:16px;color:#64748b">Nenhum prontuário encontrado.</p>';
+        }
+
+        window.onload = async function () {
+            const sessao = await WebApp.initPagina({ tipos: ['admin'], navAtivo: 'prontuarios.html' });
+            if (!sessao) return;
+
+            const dash = await ClinicaAPI.getDashboardAdmin();
+            const sel = document.getElementById('filtro-est-prontuario');
+            dash.estagiarios.forEach((e) => {
+                const opt = document.createElement('option');
+                opt.value = e.id;
+                opt.textContent = e.nome;
+                sel.appendChild(opt);
+            });
+            sel.addEventListener('change', renderizarProntuarios);
+            renderizarProntuarios();
+        };
+    </script>
+</body>
+</html>

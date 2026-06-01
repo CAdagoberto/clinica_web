@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhe do Estagiário</title>
+    <link rel="stylesheet" href="../../src/css/admin/global.css">
+    <link rel="stylesheet" href="../../src/css/admin/estagiario_detalhe.css">
+    <link rel="stylesheet" href="../../src/css/admin/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-admin">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-chart-line"></i> Visão Geral</a>
+                <a href="estagiarios.html" class="active"><i class="fa-solid fa-user-graduate"></i> Estagiários</a>
+                <a href="consultas.html"><i class="fa-solid fa-calendar-check"></i> Consultas</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-plus"></i> Agendar Consulta</a>
+                <a href="prontuarios.html"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="salas.html"><i class="fa-solid fa-door-open"></i> Salas</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="estagiarios.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar aos estagiários</a>
+            <div id="conteudo-estagiario"></div>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        window.onload = async function () {
+            const sessao = await WebApp.initPagina({ tipos: ['admin'], navAtivo: 'estagiarios.html' });
+            if (!sessao) return;
+
+            const id = Number(new URLSearchParams(window.location.search).get('id'));
+            let detalhe;
+            try {
+                detalhe = await ClinicaAPI.getEstagiarioDetalhe(id);
+            } catch (e) {
+                document.getElementById('conteudo-estagiario').innerHTML =
+                    `<p>${e.message} <a href="estagiarios.html">Voltar</a></p>`;
+                return;
+            }
+
+            const est = detalhe.estagiario;
+            const dash = await ClinicaAPI.getDashboardAdmin();
+            const resumo = dash.estagiarios.find((e) => e.id === est.id) || {};
+            const iniciais = est.nome.split(' ').map((n) => n[0]).join('').slice(0, 2);
+
+            document.getElementById('conteudo-estagiario').innerHTML = `
+                <div class="card-estagiario-topo">
+                    <div class="avatar-grande">${iniciais}</div>
+                    <div>
+                        <h2>${est.nome}</h2>
+                        <p>${est.email}</p>
+                        <p style="margin-top:8px">${resumo.horasEstagio || ''} • ${resumo.pacientesAtivos || 0} pacientes • ${resumo.consultasHoje || 0} consultas hoje</p>
+                    </div>
+                    <div class="acoes-topo-detalhe">
+                        <a href="agendar_consulta.html?estagiario=${id}"><i class="fa-solid fa-plus"></i> Nova consulta</a>
+                        <a href="consultas.html?estagiario=${id}">Todas as consultas</a>
+                    </div>
+                </div>
+
+                <div class="grid-duas-colunas">
+                    <section class="card-branco secao-bloco">
+                        <h3><i class="fa-solid fa-users"></i> Pacientes vinculados</h3>
+                        ${detalhe.pacientes.length ? detalhe.pacientes.map((p) => `
+                            <div class="item-paciente-admin">
+                                <div>
+                                    <strong>${p.nome}</strong><br>
+                                    <span>Progresso: ${p.progresso} • Próxima: ${p.proxima}</span>
+                                </div>
+                                <a href="../estagiario/prontuario.html" class="btn-admin-secundario">Prontuário</a>
+                            </div>
+                        `).join('') : '<p style="color:#64748b">Nenhum paciente vinculado.</p>'}
+                    </section>
+
+                    <section class="card-branco secao-bloco">
+                        <h3><i class="fa-solid fa-calendar-check"></i> Consultas</h3>
+                        ${detalhe.consultas.length ? detalhe.consultas.map((c) => {
+                            const st = ClinicaAPI.mapStatusAdmin(c.status);
+                            return `
+                            <div class="item-consulta-admin">
+                                <strong>${c.pacienteNome} — ${c.horario}</strong>
+                                <span>${c.data} • ${c.salaNome} • ${c.tipo || ''} • <em class="${st.classe}">${st.texto}</em></span>
+                            </div>`;
+                        }).join('') : '<p style="color:#64748b">Nenhuma consulta registrada.</p>'}
+                    </section>
+                </div>
+            `;
+        };
+    </script>
+</body>
+</html>

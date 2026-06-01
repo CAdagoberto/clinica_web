@@ -1,0 +1,562 @@
+/* ==========================================================================
+                         Tela prontuario.html
+   ========================================================================== */
+
+
+.main-prontuario {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 25px;
+    transition: color 0.3s;
+}
+
+.btn-voltar:hover {
+    color: #2a75f3;
+}
+
+.cabecalho-tela {
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 850px;
+}
+
+
+.cabecalho-tela h1 {
+    font-size: 26px;
+    color: #1e293b;
+    border-left: 6px solid #2a75f3;
+    padding-left: 15px;
+    font-weight: 700;
+}
+
+.cabecalho-tela p {
+    color: #64748b;
+    font-size: 15px;
+    margin-top: 8px;
+    margin-left: 15px;
+}
+
+
+.card-paciente-topo {
+    background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+    border-radius: 20px;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 850px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
+}
+
+
+.topo-perfil-linha {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.paciente-avatar {
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(29, 78, 216, 0.3);
+}
+
+
+.paciente-nome-bloco {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.paciente-nome-bloco h2 {
+    font-size: 20px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+
+.tag-status {
+    background-color: #dcfce7;
+    color: #166534;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tag-status::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+/* Linha de pílulas com dados do paciente */
+.paciente-dados-pílulas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+
+.pílula-item {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #334155;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+
+.pílula-destaque {
+    background-color: #ffffff;
+    color: #1e3a8a;
+    font-weight: 600;
+}
+
+
+
+.progresso-tratamento-bloco {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+
+.progresso-texto {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #334155;
+    font-weight: 600;
+}
+
+.progresso-texto i {
+    margin-right: 8px; 
+}
+
+
+.barra-progresso-fundo {
+    width: 100%;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+.barra-progresso-preenchimento {
+    width: 70%;
+    height: 100%;
+    background-color: #2a75f3;
+    border-radius: 10px;
+}
+
+.linha-divisoria {
+    border: none;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.4);
+    margin: 5px 0;
+}
+
+
+.grid-metricas-paciente {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    width: 100%;
+}
+
+
+.cartao-metrica {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    padding: 12px 15px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+.cartao-metrica h3 {
+    font-size: 22px;
+    color: #1e3a8a;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.cartao-metrica .metrica-titulo {
+    font-size: 12px;
+    color: #1e293b;
+    font-weight: 600;
+    margin-bottom: 1px;
+}
+
+.cartao-metrica .metrica-sub {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 400;
+}
+
+
+.alerta-supervisor {
+    background-color: #fef9c3;
+    border: 1px solid #fef08a;
+    border-radius: 16px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 850px;
+    margin-top: 25px;
+    margin-bottom: 35px;
+    box-sizing: border-box;
+}
+
+.alerta-supervisor i {
+    color: #ca8a04;
+    font-size: 18px;
+}
+
+.alerta-supervisor p {
+    color: #713f12;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+.historico-header-linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 100%;
+    max-width: 850px;
+}
+
+
+.filtros-status {
+    display: flex;
+    gap: 12px;
+}
+
+
+.filtro-tag {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #f8fafc;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+
+.filtro-tag.f-concluida { background: #ecfdf5; color: #10b981; border-color: #a7f3d0; }
+.filtro-tag.f-pendente  { background: #fffbeb; color: #d97706; border-color: #fde68a; }
+.filtro-tag.f-agendada  { background: #eff6ff; color: #3b82f6; border-color: #bfdbfe; }
+
+
+
+.secao-historico {
+    width: 100%;
+    max-width: 850px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+.secao-historico h3 {
+    color: #1e293b;
+    font-size: 20px;
+    margin: 0;
+    font-weight: 700;
+}
+
+
+.lista-sessoes {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+
+.card-sessao {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 16px 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    transition: transform 0.2s ease;
+}
+
+.card-sessao:hover {
+    transform: translateY(-2px);
+}
+
+
+.sessao-esquerda {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+}
+
+.sessao-numero {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #3b82f6;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    flex-shrink: 0;
+}
+
+
+.sessao-info-bloco {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+.sessao-titulo-linha {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.sessao-titulo-linha h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+
+.sessao-subtexto {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+
+
+.badge-status {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+
+.badge-tag-clinica {
+    font-size: 11px;
+    background: #f1f5f9;
+    color: #475569;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+
+.card-sessao.concluida { border-left: 5px solid #10b981; }
+.badge-status.b-concluida { background: #d1fae5; color: #065f46; }
+
+.card-sessao.pendente { border-left: 5px solid #f59e0b; }
+.badge-status.b-pendente { background: #fef3c7; color: #92400e; }
+
+.card-sessao.rascunho { border-left: 5px solid #64748b; }
+.badge-status.b-rascunho { background: #e2e8f0; color: #334155; }
+
+
+.card-sessao.proxima { border-left: 5px solid #3b82f6; background: #f0fdfa; }
+.badge-status.b-proxima { background: #dbeafe; color: #1e40af; }
+.card-sessao.proxima .sessao-numero { background: #3b82f6; }
+
+
+.card-sessao.futura { border-left: 5px solid #cbd5e1; opacity: 0.6; }
+.badge-status.b-futura { background: #f1f5f9; color: #475569; }
+.card-sessao.futura .sessao-numero { background: #cbd5e1; box-shadow: none; }
+
+
+
+
+.sessao-botoes-grupo button,
+.sessao-botoes-grupo a,
+.btn-visualizar,
+.btn-continuar-edicao,
+.btn-iniciar-atendimento {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+}
+
+
+.sessao-botoes-grupo {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+
+.btn-visualizar {
+    padding: 8px 20px;
+    font-size: 14px;
+    background-color: #e8efff;
+    color: #2a75f3;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-visualizar:hover {
+    background-color: #2a75f3;
+    color: white;
+}
+
+
+.btn-ajuda-supervisor {
+    background-color: #fffbeb;
+    color: #b45309;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-ajuda-supervisor:hover {
+    background-color: #fef3c7;
+}
+
+.btn-continuar-edicao {
+    background: #3b82f6;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-continuar-edicao:hover {
+    background-color: #2563eb;
+}
+
+
+.btn-iniciar-atendimento {
+    background-color: #3b82f6;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.15);
+    transition: all 0.2s ease;
+}
+
+.btn-iniciar-atendimento:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+}
+
+
+
+.btn-pdf-prontuario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 850px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+.btn-pdf-prontuario:hover {
+    background-color: #1a5ecb;
+}
+
+.progresso-texto strong {
+    color: #2c3e50; 
+}

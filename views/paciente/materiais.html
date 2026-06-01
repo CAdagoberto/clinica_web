@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materiais de Apoio - Paciente</title>
+    <link rel="stylesheet" href="../../src/css/paciente/global.css">
+    <link rel="stylesheet" href="../../src/css/paciente/index.css">
+    <link rel="stylesheet" href="../../src/css/paciente/paginacao.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="check-in.html"><i class="fa-solid fa-calendar-check"></i> Check-in</a>
+                <a href="consultas.html"><i class="fa-solid fa-clipboard-list"></i> Consultas</a>
+                <a href="exames.html"><i class="fa-solid fa-file-medical"></i> Exames</a>
+                <a href="materiais.html" class="active"><i class="fa-solid fa-book-open"></i> Materiais</a>
+                <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina">
+                <h1>Materiais de apoio</h1>
+                <p>Conteúdos recomendados pela equipe para complementar seu tratamento.</p>
+            </header>
+
+            <div class="filtros-barra">
+                <select id="filtro-categoria">
+                    <option value="">Todas as categorias</option>
+                </select>
+                <input type="search" id="busca-material" placeholder="Buscar material...">
+            </div>
+
+            <div class="materiais-flex" id="grid-materiais" style="flex-wrap:wrap;width:100%"></div>
+            <div id="paginacao-materiais" style="width:100%"></div>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script src="../../src/js/paginacao.js"></script>
+    <script>
+        let paginaAtual = 1;
+        let materiaisLista = [];
+
+        function filtrarMateriais() {
+            const cat = document.getElementById('filtro-categoria').value;
+            const busca = document.getElementById('busca-material').value.toLowerCase();
+            return materiaisLista.filter((m) => {
+                const okCat = !cat || m.categoria === cat;
+                const okBusca = !busca || m.titulo.toLowerCase().includes(busca);
+                return okCat && okBusca;
+            });
+        }
+
+        function renderizar() {
+            const lista = filtrarMateriais();
+            const fatia = Paginacao.fatiar(lista, paginaAtual);
+            const grid = document.getElementById('grid-materiais');
+
+            grid.style.display = 'grid';
+            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(220px, 1fr))';
+            grid.style.gap = '20px';
+
+            grid.innerHTML = fatia.map((m) => `
+                <div class="card-material" style="min-width:200px">
+                    <div class="icone-material"><i class="fa-solid fa-${m.disponivel ? 'file-pdf' : 'lock'}"></i></div>
+                    <span style="font-size:12px;color:#64748b">${m.categoria} • ${m.paginas} pág.</span>
+                    <h4>${m.titulo}</h4>
+                    <button type="button" class="btn-paciente-sec ${m.disponivel ? '' : 'disabled'}" style="width:100%;justify-content:center" data-material="${m.id}" ${m.disponivel ? '' : 'disabled'}>
+                        ${m.disponivel ? 'Visualizar' : 'Indisponível'}
+                    </button>
+                </div>
+            `).join('');
+
+            grid.querySelectorAll('[data-material]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const m = materiaisLista.find((x) => x.id === Number(btn.getAttribute('data-material')));
+                    if (m?.disponivel) alert(`Abrindo: ${m.titulo} (simulação de visualização).`);
+                });
+            });
+
+            Paginacao.renderizar('paginacao-materiais', {
+                totalItens: lista.length,
+                paginaAtual,
+                rotulo: 'materiais',
+                onMudarPagina: (n) => {
+                    paginaAtual = n;
+                    renderizar();
+                },
+            });
+        }
+
+        window.onload = async function () {
+            const sessao = await WebApp.initPagina({ tipos: ['paciente'], navAtivo: 'materiais.html' });
+            if (!sessao) return;
+            materiaisLista = await ClinicaAPI.getMateriais();
+
+            const cats = [...new Set(materiaisLista.map((m) => m.categoria))];
+            const sel = document.getElementById('filtro-categoria');
+            cats.forEach((c) => {
+                const o = document.createElement('option');
+                o.value = c;
+                o.textContent = c;
+                sel.appendChild(o);
+            });
+
+            sel.addEventListener('change', () => { paginaAtual = 1; renderizar(); });
+            document.getElementById('busca-material').addEventListener('input', () => { paginaAtual = 1; renderizar(); });
+            renderizar();
+        };
+    </script>
+</body>
+</html>

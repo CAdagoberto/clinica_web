@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Consulta - Admin</title>
+    <link rel="stylesheet" href="../../src/css/admin/global.css">
+    <link rel="stylesheet" href="../../src/css/admin/agendar_consulta.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-admin">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-chart-line"></i> Visão Geral</a>
+                <a href="estagiarios.html"><i class="fa-solid fa-user-graduate"></i> Estagiários</a>
+                <a href="consultas.html"><i class="fa-solid fa-calendar-check"></i> Consultas</a>
+                <a href="agendar_consulta.html" class="active"><i class="fa-regular fa-calendar-plus"></i> Agendar Consulta</a>
+                <a href="prontuarios.html"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="salas.html"><i class="fa-solid fa-door-open"></i> Salas</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="consultas.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina">
+                <h1>Agendar Consulta</h1>
+                <p>Defina estagiário responsável, paciente, sala e horário. O paciente deve pertencer ao estagiário selecionado.</p>
+            </header>
+
+            <section class="formulario-container">
+                <div class="card-formulario">
+                    <form id="form-agendamento-admin">
+                        <div class="grupo-input">
+                            <label for="estagiario">Estagiário responsável</label>
+                            <div class="wrapper-input-icone">
+                                <select id="estagiario" required></select>
+                                <i class="fa-solid fa-chevron-down icone-seletor"></i>
+                            </div>
+                        </div>
+
+                        <div class="grupo-input">
+                            <label for="paciente">Paciente</label>
+                            <div class="wrapper-input-icone">
+                                <select id="paciente" required>
+                                    <option value="" disabled selected>Selecione o estagiário primeiro</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down icone-seletor"></i>
+                            </div>
+                            <p class="texto-ajuda">Somente pacientes vinculados ao estagiário aparecem na lista.</p>
+                        </div>
+
+                        <div class="grupo-input">
+                            <label for="sala">Sala</label>
+                            <div class="wrapper-input-icone">
+                                <select id="sala" required>
+                                    <option value="" disabled selected>Selecione a sala</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down icone-seletor"></i>
+                            </div>
+                        </div>
+
+                        <div class="grupo-input">
+                            <label for="data">Data</label>
+                            <input type="date" id="data" value="2026-06-01" required>
+                        </div>
+
+                        <div class="grupo-input">
+                            <label for="horario">Horário</label>
+                            <input type="time" id="horario" value="10:00" required>
+                        </div>
+
+                        <div class="botoes-formulario">
+                            <button type="button" class="btn-cancelar" onclick="window.location.href='consultas.html'">Cancelar</button>
+                            <button type="submit" class="btn-confirmar">Confirmar Agendamento</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        const atualizarPacientes = async () => {
+            const estId = Tpl.num('estagiario');
+            const pacientes = estId ? await ClinicaAPI.getPacientes(estId) : [];
+            const select = document.getElementById('paciente');
+
+            select.innerHTML = pacientes.length
+                ? `<option value="" disabled selected>Selecione o paciente</option>${Tpl.opcoes(pacientes)}`
+                : `<option value="" disabled selected>Nenhum paciente vinculado</option>`;
+        };
+
+        window.onload = async () => {
+            const sessao = await WebApp.initPagina({ tipos: ['admin'], navAtivo: 'agendar_consulta.html' });
+            if (!sessao) return;
+
+            const dash = await ClinicaAPI.getDashboardAdmin();
+            document.getElementById('estagiario').innerHTML = `<option value="" disabled selected>Selecione</option>${Tpl.opcoes(dash.estagiarios)}`;
+
+            const salas = (await ClinicaAPI.getSalas()).filter((s) => s.status === 'disponivel');
+            document.getElementById('sala').innerHTML = `<option value="" disabled selected>Selecione a sala</option>${salas
+                .map((s) => `<option value="${s.id}">${s.nome} (Livre)</option>`)
+                .join('')}`;
+
+            document.getElementById('data').value = ClinicaAPI.hoje;
+
+            const params = new URLSearchParams(location.search);
+            const estParam = params.get('estagiario');
+            const salaParam = params.get('sala');
+
+            if (estParam) {
+                document.getElementById('estagiario').value = estParam;
+                await atualizarPacientes();
+            }
+            if (salaParam) {
+                document.getElementById('sala').value = salaParam;
+            }
+
+            document.getElementById('estagiario').onchange = atualizarPacientes;
+
+            document.getElementById('form-agendamento-admin').onsubmit = async (e) => {
+                e.preventDefault();
+                const btn = e.target.querySelector('.btn-confirmar');
+                try {
+                    await UI.botaoLoading(btn, () =>
+                        ClinicaAPI.criarConsulta({
+                            pacienteId: Tpl.num('paciente'),
+                            estagiarioId: Tpl.num('estagiario'),
+                            salaId: Tpl.num('sala'),
+                            data: Tpl.val('data'),
+                            horario: Tpl.val('horario'),
+                            status: 'pendente',
+                            tipo: 'Consulta agendada',
+                        })
+                    );
+                    UI.toast('Consulta agendada e salva!');
+                    setTimeout(() => { location.href = 'consultas.html'; }, 600);
+                } catch (err) {
+                    UI.toast(err.message, 'error');
+                }
+            };
+        };
+    </script>
+</body>
+</html>

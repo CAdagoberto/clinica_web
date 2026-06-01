@@ -1,0 +1,86 @@
+.container-cards-estagiarios {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.card-estagiario {
+    background: white;
+    border-radius: 18px;
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    flex-wrap: wrap;
+}
+
+.card-estagiario:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.avatar-estagiario {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.corpo-estagiario {
+    flex: 1;
+    min-width: 200px;
+}
+
+.corpo-estagiario h3 {
+    font-size: 18px;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.corpo-estagiario .email {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.metricas-estagiario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.metrica-mini {
+    font-size: 13px;
+    color: #475569;
+}
+
+.metrica-mini strong {
+    color: #0284c7;
+}
+
+.acoes-estagiario {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.tag-ativo {
+    background: #dcfce7;
+    color: #166534;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    align-self: flex-start;
+    margin-bottom: 4px;
+}

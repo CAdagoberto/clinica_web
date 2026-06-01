@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exames - Paciente</title>
+    <link rel="stylesheet" href="../../src/css/paciente/global.css">
+    <link rel="stylesheet" href="../../src/css/paciente/consultas.css">
+    <link rel="stylesheet" href="../../src/css/paciente/paginacao.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="check-in.html"><i class="fa-solid fa-calendar-check"></i> Check-in</a>
+                <a href="consultas.html"><i class="fa-solid fa-clipboard-list"></i> Consultas</a>
+                <a href="exames.html" class="active"><i class="fa-solid fa-file-medical"></i> Exames</a>
+                <a href="materiais.html"><i class="fa-solid fa-book-open"></i> Materiais</a>
+                <a href="configuracoes.html"><i class="fa-solid fa-gear"></i> Configurações</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina">
+                <h1>Exames e documentos</h1>
+                <p>Solicitações do seu estagiário. Anexe os arquivos quando estiverem prontos.</p>
+            </header>
+
+            <div class="filtros-barra">
+                <select id="filtro-exame">
+                    <option value="">Todos</option>
+                    <option value="pendente">Pendentes de anexo</option>
+                    <option value="anexado">Já anexados</option>
+                </select>
+            </div>
+
+            <div class="card-branco" id="lista-exames"></div>
+            <div id="paginacao-exames"></div>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script src="../../src/js/paginacao.js"></script>
+    <script>
+        let paginaAtual = 1;
+        let examesPaciente = [];
+
+        function listaFiltrada() {
+            const f = document.getElementById('filtro-exame').value;
+            let lista = [...examesPaciente];
+            if (f === 'pendente') lista = lista.filter((e) => !e.anexado);
+            if (f === 'anexado') lista = lista.filter((e) => e.anexado);
+            return lista.sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+        }
+
+        function renderizar() {
+            const lista = listaFiltrada();
+            const fatia = Paginacao.fatiar(lista, paginaAtual);
+            const el = document.getElementById('lista-exames');
+
+            if (!fatia.length) {
+                el.innerHTML = '<p style="padding:16px;color:#64748b">Nenhum exame encontrado.</p>';
+            } else {
+                el.innerHTML = fatia.map((e) => {
+                    const dataFmt = e.data ? ClinicaAPI.formatarDataBR(e.data) : '—';
+                    return `
+                    <div class="consulta-card-paciente">
+                        <div>
+                            <strong>${e.titulo}</strong>
+                            <span>${e.descricao} • Solicitado em ${dataFmt}</span>
+                            <br><span style="margin-top:6px;display:inline-block;font-weight:600;color:${e.anexado ? '#10b981' : '#f59e0b'}">
+                                ${e.anexado ? `✓ Anexado: ${e.arquivoNome}` : 'Aguardando anexo'}
+                            </span>
+                        </div>
+                        <div class="consulta-acoes-paciente">
+                            ${!e.anexado ? `<button type="button" class="btn-paciente" data-anexar="${e.id}">Anexar arquivo</button>` : ''}
+                        </div>
+                    </div>`;
+                }).join('');
+
+                el.querySelectorAll('[data-anexar]').forEach((btn) => {
+                    btn.addEventListener('click', async () => {
+                        const id = Number(btn.getAttribute('data-anexar'));
+                        await ClinicaAPI.anexarExame(id, `exame-${id}.pdf`);
+                        examesPaciente = await ClinicaAPI.getSolicitacoesExameByPaciente(ClinicaAPI.getSessao().id);
+                        alert('Arquivo anexado com sucesso (simulação).');
+                        renderizar();
+                    });
+                });
+            }
+
+            Paginacao.renderizar('paginacao-exames', {
+                totalItens: lista.length,
+                paginaAtual,
+                rotulo: 'exames',
+                onMudarPagina: (n) => {
+                    paginaAtual = n;
+                    renderizar();
+                },
+            });
+        }
+
+        window.onload = async function () {
+            const sessao = await WebApp.initPagina({ tipos: ['paciente'], navAtivo: 'exames.html' });
+            if (!sessao) return;
+            examesPaciente = await ClinicaAPI.getSolicitacoesExameByPaciente(sessao.id);
+            document.getElementById('filtro-exame').addEventListener('change', () => { paginaAtual = 1; renderizar(); });
+            renderizar();
+        };
+    </script>
+</body>
+</html>

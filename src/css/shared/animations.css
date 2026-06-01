@@ -1,0 +1,106 @@
+/* Animações globais — telas_web */
+
+@keyframes ui-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ui-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ui-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.ui-page-enter {
+  animation: ui-fade-in 0.45s ease-out;
+}
+
+.main-content > *:not(.btn-voltar) {
+  animation: ui-slide-up 0.5s ease-out backwards;
+}
+
+.cabecalho-pagina { animation-delay: 0.05s; }
+.filtros-barra,
+.dashboard-grid,
+.section-container,
+.card-branco,
+.formulario-container { animation-delay: 0.1s; }
+
+.ui-animate {
+  animation: ui-slide-up 0.45s ease-out backwards;
+}
+
+.ui-animate-delay-1 { animation-delay: 0.08s; }
+.ui-animate-delay-2 { animation-delay: 0.14s; }
+.ui-animate-delay-3 { animation-delay: 0.2s; }
+.ui-animate-delay-4 { animation-delay: 0.26s; }
+
+.card-estagiario,
+.card-paciente-lista,
+.kpi-card,
+.consulta-card-paciente,
+.historico-item,
+.card-material,
+.sala-badge {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.card-estagiario:hover,
+.consulta-card-paciente:hover,
+.kpi-card:hover,
+.historico-item:hover,
+.card-material:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
+}
+
+.btn-admin-primario,
+.btn-paciente,
+.btn-confirmar,
+.btn-fill,
+.login-btn {
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-admin-primario:hover:not(:disabled),
+.btn-paciente:hover:not(:disabled),
+.btn-confirmar:hover:not(:disabled),
+.btn-fill:hover:not(:disabled),
+.login-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.btn-admin-primario:active:not(:disabled),
+.btn-paciente:active:not(:disabled),
+.login-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.sidebar nav a {
+  transition: background 0.2s ease, padding-left 0.2s ease, color 0.2s ease;
+}
+
+.sidebar nav a:hover {
+  padding-left: 4px;
+}
+
+.login-container {
+  animation: ui-scale-in 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Consulta - Clínica Psiquiátrica</title>
+    <link rel="stylesheet" href="../../src/css/estagiario/global.css">
+    <link rel="stylesheet" href="../../src/css/estagiario/agendar_consulta.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+
+            <hr class="linha-menu">
+
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="#" class="active"><i class="fa-regular fa-calendar-days"></i> Minha Agenda</a>
+                <a href="meus_pacientes.html"><i class="fa-solid fa-users"></i> Meus Pacientes</a>
+                <a href="prontuarios.html"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="avaliacao.html"><i class="fa-solid fa-graduation-cap"></i> Avaliação Acadêmica</a>
+            </nav>
+
+            <hr class="linha-menu">
+
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="index.html" class="btn-voltar">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </a>
+
+            <section class="formulario-container">
+                
+                <div class="cabecalho-titulo">
+                    <h2>Agendar Consulta</h2>
+                    <p class="subtitulo-explicativo">Preencha os campos abaixo para reservar um horário fixo semanal para o atendimento do paciente.</p>
+                </div>
+
+                <div class="card-formulario">
+                    <form id="form-agendamento">
+                        
+                        <div class="grupo-input">
+                            <label for="paciente">Nome do Paciente</label>
+                            <div class="wrapper-input-icone">
+                                <select id="paciente" required>
+                                    <option value="" disabled selected>Selecione o paciente</option>
+                                    <option value="1">João Silva</option>
+                                    <option value="2">Maria Aparecida</option>
+                                    <option value="3">Carlos Mendes</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down icone-seletor"></i>
+                            </div>
+                        </div>
+
+                        <div class="grupo-input">
+                            <label for="dia-semana">Dia da Semana</label>
+                            <div class="wrapper-input-icone">
+                                <select id="dia-semana" required>
+                                    <option value="" disabled selected>Selecione o dia</option>
+                                    <option value="segunda">Segunda-feira</option>
+                                    <option value="terca">Terça-feira</option>
+                                    <option value="quarta">Quarta-feira</option>
+                                    <option value="quinta">Quinta-feira</option>
+                                    <option value="sexta">Sexta-feira</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down icone-seletor"></i>
+                            </div>
+                        </div>
+
+                        <div class="grupo-input">
+                            <label for="horario">Horário do Atendimento</label>
+                            <input type="time" id="horario" required>
+                        </div>
+
+                        <div class="botoes-formulario">
+                            <button type="button" class="btn-cancelar" onclick="window.location.href='index.html'">Cancelar</button>
+                            <button type="submit" class="btn-confirmar">Confirmar Agendamento</button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes</title>
+    <link rel="stylesheet" href="../../src/css/estagiario/global.css">
+    <link rel="stylesheet" href="../../src/css/estagiario/meu_pacientes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-days"></i> Minha Agenda</a>
+                <a href="meus_pacientes.html" class="active"><i class="fa-solid fa-users"></i> Meus Pacientes</a>
+                <a href="prontuarios.html"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="avaliacao.html"><i class="fa-solid fa-graduation-cap"></i> Avaliação Acadêmica</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content tela-pacientes">
+            <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina" style="margin-bottom:20px">
+                <h1 style="margin:0;color:#1e293b">Meus Pacientes</h1>
+                <p style="color:#64748b;margin:8px 0 0">Lista do mockApi — salva no localStorage.</p>
+            </header>
+
+            <button type="button" class="btn-principal" id="btn-novo-paciente" style="margin-bottom:20px">
+                <i class="fa-solid fa-plus"></i> Cadastrar paciente
+            </button>
+
+            <section class="grupo-pacientes">
+                <h2>Em acompanhamento</h2>
+                <div class="container-cards" id="lista-ativos"></div>
+            </section>
+
+            <hr class="linha-separacao">
+
+            <section class="grupo-pacientes">
+                <h2>Outros status</h2>
+                <div class="container-cards" id="lista-outros"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        let sessao = null;
+
+        const montarListas = (pacientes) => {
+            const ativos = pacientes.filter((p) => p.statusPaciente !== 'cancelado');
+            const outros = pacientes.filter((p) => p.statusPaciente === 'cancelado');
+
+            document.getElementById('lista-ativos').innerHTML = ativos.length
+                ? ativos.map((p) => Tpl.cardPacienteEstagiario(p)).join('')
+                : Tpl.vazio('Nenhum paciente ativo.');
+
+            document.getElementById('lista-outros').innerHTML = outros.length
+                ? outros.map((p) => Tpl.cardPacienteEstagiario(p)).join('')
+                : Tpl.vazio('Nenhum registro.');
+
+            UI.animarFilhos(document.querySelector('.tela-pacientes'), '.card-paciente-lista');
+        };
+
+        window.onload = async () => {
+            sessao = await WebApp.initPagina({ tipos: ['estagiario'], navAtivo: 'meus_pacientes.html' });
+            if (!sessao) return;
+
+            await UI.carregar(
+                document.getElementById('lista-ativos'),
+                () => ClinicaAPI.getPacientesComStatus(sessao.id),
+                montarListas,
+                { skeleton: 'card', count: 3 }
+            );
+
+            document.getElementById('btn-novo-paciente').onclick = () => {
+                UI.abrirModal({
+                    titulo: 'Cadastrar paciente',
+                    subtitulo: 'Vinculado automaticamente a você.',
+                    htmlCorpo: Tpl.formNovoPacienteEstagiario(),
+                    onConfirmar: async () => {
+                        await ClinicaAPI.cadastrarPaciente(
+                            {
+                                nome: Tpl.val('np-nome'),
+                                email: Tpl.val('np-email'),
+                                cpf: Tpl.val('np-cpf'),
+                                telefone: Tpl.val('np-tel'),
+                                responsavelEstagiarioId: sessao.id,
+                            },
+                            { atorTipo: 'estagiario', atorId: sessao.id }
+                        );
+                        UI.toast('Paciente cadastrado!');
+                        montarListas(await ClinicaAPI.getPacientesComStatus(sessao.id));
+                    },
+                });
+            };
+        };
+    </script>
+</body>
+</html>

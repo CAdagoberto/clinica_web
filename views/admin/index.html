@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Clínica Psiquiátrica</title>
+    <link rel="stylesheet" href="../../src/css/admin/global.css">
+    <link rel="stylesheet" href="../../src/css/admin/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-admin">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html" class="active"><i class="fa-solid fa-chart-line"></i> Visão Geral</a>
+                <a href="estagiarios.html"><i class="fa-solid fa-user-graduate"></i> Estagiários</a>
+                <a href="consultas.html"><i class="fa-solid fa-calendar-check"></i> Consultas</a>
+                <a href="agendar_consulta.html"><i class="fa-regular fa-calendar-plus"></i> Agendar Consulta</a>
+                <a href="prontuarios.html"><i class="fa-solid fa-file-medical"></i> Prontuários</a>
+                <a href="salas.html"><i class="fa-solid fa-door-open"></i> Salas</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="user-info">
+                    <div class="admin-avatar" id="avatar-letra">A</div>
+                    <div>
+                        <p>Painel de Gestão</p>
+                        <h2 id="nome-usuario">Administração Central</h2>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <a href="estagiarios.html" class="icon-btn" title="Estagiários"><i class="fa-solid fa-users"></i></a>
+                    <a href="consultas.html" class="icon-btn" title="Consultas"><i class="fa-regular fa-bell"></i></a>
+                </div>
+            </header>
+
+            <section class="kpi-row" id="kpi-container"></section>
+
+            <section class="dashboard-grid">
+                <div class="section-container full-width">
+                    <div class="header-com-botao">
+                        <h3>Consultas dos Estagiários — Hoje</h3>
+                        <a href="consultas.html" class="btn-text">Ver todas <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <div class="historico-lista" id="lista-consultas-hoje"></div>
+                </div>
+
+                <div class="section-container">
+                    <div class="header-com-botao">
+                        <h3>Estagiários Ativos</h3>
+                        <a href="estagiarios.html" class="btn-text">Gerenciar</a>
+                    </div>
+                    <div class="lista-estagiarios-resumo" id="lista-estagiarios-resumo"></div>
+                </div>
+
+                <div class="section-container">
+                    <h3>Gestão Rápida</h3>
+                    <div class="materiais-flex">
+                        <div class="card-material">
+                            <div class="icone-destaque"><i class="fa-solid fa-calendar-plus"></i></div>
+                            <h4>Nova Consulta</h4>
+                            <a href="agendar_consulta.html" class="btn-admin-secundario">Agendar</a>
+                        </div>
+                        <div class="card-material">
+                            <div class="icone-destaque"><i class="fa-solid fa-user-graduate"></i></div>
+                            <h4>Estagiários</h4>
+                            <a href="estagiarios.html" class="btn-admin-secundario">Ver equipe</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-container full-width">
+                    <div class="header-com-botao">
+                        <h3>Status das Salas</h3>
+                        <a href="salas.html" class="btn-text">Controle completo</a>
+                    </div>
+                    <div class="salas-grid" id="salas-grid"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        window.onload = async function () {
+            const sessao = await WebApp.initPagina({ tipos: ['admin'], navAtivo: 'index.html' });
+            if (!sessao) return;
+
+            document.getElementById('kpi-container').innerHTML = UI.htmlSkeleton('kpi', 3);
+            document.getElementById('lista-consultas-hoje').innerHTML = UI.htmlSkeleton('list', 4);
+
+            const dash = await ClinicaAPI.getDashboardAdmin();
+            await UI.delay(400);
+
+            document.getElementById('kpi-container').innerHTML = Tpl.kpisAdmin(dash.kpis);
+
+            document.getElementById('lista-consultas-hoje').innerHTML = dash.consultasHoje.length
+                ? dash.consultasHoje.map((c) => Tpl.consultaHojeAdmin(c)).join('')
+                : Tpl.vazio('Nenhuma consulta hoje.');
+
+            document.getElementById('lista-estagiarios-resumo').innerHTML = dash.estagiarios
+                .slice(0, 4)
+                .map((e) => Tpl.estagiarioResumo(e))
+                .join('');
+
+            document.getElementById('salas-grid').innerHTML = dash.salas
+                .map((s) => Tpl.salaBadge(s.nome, s.classe, s.label))
+                .join('');
+
+            UI.animarFilhos(document.querySelector('.dashboard-grid'));
+        };
+    </script>
+</body>
+</html>

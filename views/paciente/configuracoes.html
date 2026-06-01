@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Paciente</title>
+    <link rel="stylesheet" href="../../src/css/paciente/global.css">
+    <link rel="stylesheet" href="../../src/css/paciente/configuracoes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">CP</div>
+            <hr class="linha-menu">
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+                <a href="check-in.html"><i class="fa-solid fa-calendar-check"></i> Check-in</a>
+                <a href="consultas.html"><i class="fa-solid fa-clipboard-list"></i> Consultas</a>
+                <a href="exames.html"><i class="fa-solid fa-file-medical"></i> Exames</a>
+                <a href="materiais.html"><i class="fa-solid fa-book-open"></i> Materiais</a>
+                <a href="configuracoes.html" class="active"><i class="fa-solid fa-gear"></i> Configurações</a>
+            </nav>
+            <hr class="linha-menu">
+            <div class="sidebar-footer">
+                <a href="/index.html?logout=1"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <a href="index.html" class="btn-voltar"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+
+            <header class="cabecalho-pagina">
+                <h1>Configurações</h1>
+                <p>Seus dados cadastrais e preferências de conta.</p>
+            </header>
+
+            <div class="perfil-grid">
+                <section class="card-branco">
+                    <h3 style="margin-bottom:20px;color:#334155"><i class="fa-solid fa-user"></i> Meus dados</h3>
+                    <div class="linha-config"><strong>Nome</strong><span id="cfg-nome">—</span></div>
+                    <div class="linha-config"><strong>E-mail</strong><span id="cfg-email">—</span></div>
+                    <div class="linha-config"><strong>CPF</strong><span id="cfg-cpf">—</span></div>
+                    <div class="linha-config"><strong>Telefone</strong><span id="cfg-tel">—</span></div>
+                    <div class="linha-config"><strong>Estagiário</strong><span id="cfg-est">—</span></div>
+                </section>
+
+                <section class="card-branco">
+                    <h3 style="margin-bottom:20px;color:#334155"><i class="fa-solid fa-lock"></i> Segurança</h3>
+                    <div class="grupo-form-config">
+                        <label for="nova-senha">Nova senha</label>
+                        <input type="password" id="nova-senha" placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <div class="grupo-form-config">
+                        <label for="conf-senha">Confirmar senha</label>
+                        <input type="password" id="conf-senha" placeholder="Repita a senha">
+                    </div>
+                    <button type="button" class="btn-paciente" id="btn-salvar-senha">Atualizar senha</button>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../data/mockApi.js"></script>
+    <script src="../../src/js/web-common.js"></script>
+    <script>
+        window.onload = async function () {
+            const sessao = await WebApp.initPagina({ tipos: ['paciente'], navAtivo: 'configuracoes.html' });
+            if (!sessao) return;
+
+            const dash = await ClinicaAPI.getDashboardPaciente(sessao.id);
+            const p = dash.perfil;
+            document.getElementById('cfg-nome').textContent = p.nome;
+            document.getElementById('cfg-email').textContent = p.email;
+            document.getElementById('cfg-cpf').textContent = p.cpf || '—';
+            document.getElementById('cfg-tel').textContent = p.telefone || '—';
+            document.getElementById('cfg-est').textContent = p.estagiario;
+
+            document.getElementById('btn-salvar-senha').addEventListener('click', () => {
+                const a = document.getElementById('nova-senha').value;
+                const b = document.getElementById('conf-senha').value;
+                if (a.length < 6) {
+                    alert('A senha deve ter pelo menos 6 caracteres.');
+                    return;
+                }
+                if (a !== b) {
+                    alert('As senhas não coincidem.');
+                    return;
+                }
+                alert('Senha atualizada com sucesso (simulação).');
+            });
+        };
+    </script>
+</body>
+</html>
